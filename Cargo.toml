@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "*",
+]
+
+# Optional: You can specify default build settings for all members
+[profile.release]
+lto = true
+codegen-units = 1
