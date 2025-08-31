@@ -1,6 +1,16 @@
 [workspace]
+resolver = "2"
+
 members = [
     "*",
+]
+
+exclude = [
+    "target",
+    ".idea",
+    ".git",
+    "1-multiples-of-3-or-5", # Written in C
+    "2-even-fibonacci-numbers", # Written in C
 ]
 
 # Optional: You can specify default build settings for all members
