@@ -5,7 +5,7 @@ fn main() {
     let mut i: u64 = 5;
     loop {
         // 6k -1
-        if check_prime(i) {
+        if is_prime(i) {
             prime_count += 1;
             if prime_count >= 10001 {
                 println!("{} is the {}th prime", i, prime_count);
@@ -13,7 +13,7 @@ fn main() {
             }
         }
         // 6k +1
-        if check_prime(i + 2) {
+        if is_prime(i + 2) {
             prime_count += 1;   
             if prime_count >= 10001 {
                 println!("{} is the {}th prime", i + 2, prime_count);
@@ -25,33 +25,20 @@ fn main() {
 
 }
 
-//functionally complete check_prime function
-//which is unnecessary but cool
-fn check_prime(n: u64) -> bool {
-    //check if it's 0 or 1
-    if n <= 1 {
-        return false
+//functionally complete is_prime function
+fn is_prime(n: u64) -> bool {
+    match n {
+        0 | 1 => return false, //
+        2 | 3 => return true,
+        _ => (), // Continue for all other numbers.
     }
+    // check if it's immediately divisible by 2 or 3
+    if n % 2 == 0 || n % 3 == 0 { return false }
 
-    //check if it's 2 or 3
-    if n == 2 || n == 3 {
-        return true
-    }
+    // iterate from 5 to sqrt(n) by 6 checking if it's divisible by 6k +/- 1
+    let divisors = (5..).step_by(6).flat_map(|i| [i, i+2]);
 
-    //check if it's immediately divisible by 2 or 3
-    if n % 2 == 0 || n % 3 == 0 {
-        return false
-    }
-
-    //iterate from 5 to sqrt(n) by 6 checking if it's divisible by 6k +/- 1
-    let mut i: u64 = 5;
-    while i <= ((n as f64).sqrt() as u64) {
-        if n % i == 0 || n % (i + 2) == 0 {
-            return false
-        }
-        i += 6;
-    }
-
-    //if it found nothing n can be divided by cleanly under sqrt(n)
-    true
+    ! divisors
+        .take_while(|i| i * i <= n)
+        .any(|i| n % i == 0)
 }
